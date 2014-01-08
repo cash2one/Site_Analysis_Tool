@@ -148,10 +148,15 @@ class url_process():
         Raises：
     
         """
-        if url.startswith("http://"):
-            url = url[7:]
-        if url.startswith("https://"):
-            url = url[8:]
-        items = url.split('/')
-        host = items[0].lstrip('www.')
-        return host    
+        parse_result = urlparse.urlparse(url)
+        host = parse_result.netloc
+        if host == '':
+            if url.startswith("http://"):
+                url = url[7:]
+            if url.startswith("https://"):
+                url = url[8:]
+            items = url.split('/')
+            host = items[0].lstrip('www.')
+            return host    
+        else:
+            return host.lstrip('www.')
